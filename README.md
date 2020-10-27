@@ -30,3 +30,14 @@ oc create -f sbt.yml
 ```
 
 Note the openshift user must have rights to the openshift namespace (i.e. a cluster admin).
+
+### Trouble Shooting
+
+Some times checking out this project in windows will cause ^M characters to appear on the s2i/bin git bash files cause a error while trying to run the assembly command. 
+
+If that happens clean up the s2i/bin files by running
+
+```
+ % sed -e "s/^M//" filename > newfilename
+``` 
+
