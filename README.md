@@ -38,6 +38,6 @@ Some times checking out this project in windows will cause ^M characters to appe
 If that happens clean up the s2i/bin files by running
 
 ```
- % sed -e "s/^M//" filename > newfilename
+sed -e "s/^M//" filename > newfilename
 ``` 
 
