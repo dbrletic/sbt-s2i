@@ -2,8 +2,8 @@ FROM openshift/base-centos7
 
 MAINTAINER John Wass <jwass3@gmail.com>
 
-ARG SBT_VERSION
-ARG SCALA_VERSION
+ARG SBT_VERSION=1.4.1
+ARG SCALA_VERSION=2.13.3
 
 ENV SBT_S2I_BUILDER_VERSION=0.1
 ENV IVY_DIR=/opt/app-root/src/.ivy2
@@ -17,7 +17,7 @@ LABEL io.k8s.display-name="sbt-s2i $SBT_S2I_BUILDER_VERSION" \
 
 USER root
 
-RUN INSTALL_PKGS="nano curl net-tools tar unzip which lsof openjdk-8-jdk-headless sbt-$SBT_VERSION" \
+RUN INSTALL_PKGS="nano curl net-tools tar unzip which lsof java-11-openjdk java-11-openjdk-devel sbt-$SBT_VERSION" \
  && curl -s https://bintray.com/sbt/rpm/rpm > bintray-sbt-rpm.repo \
  && mv bintray-sbt-rpm.repo /etc/yum.repos.d/ \
  && yum install -y --enablerepo=centosplus $INSTALL_PKGS \
@@ -26,7 +26,7 @@ RUN INSTALL_PKGS="nano curl net-tools tar unzip which lsof openjdk-8-jdk-headles
 
 COPY plugins.sbt /tmp
 
-RUN mkdir -p /tmp/caching/project /opt/app-root/bin \
+RUN mkdir -p /tmp/caching/project \
  && cd /tmp/caching \
  && echo "sbt.version = $SBT_VERSION" > project/build.properties \
  && echo "scalaVersion := \"$SCALA_VERSION\"" > build.sbt \

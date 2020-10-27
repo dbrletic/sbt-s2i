@@ -11,6 +11,7 @@
 readonly sbt_stage_cmd="${SBT_SUBPROJECT:+${SBT_SUBPROJECT}/}stage"
 readonly sbt_target_dir="${SBT_SUBPROJECT:+${SBT_SUBPROJECT}/}target"
 
+echo "starting assembly" 
 # If the 'sbt-s2i' assemble script is executed with the '-h' flag, print the usage.
 if [[ "$1" == "-h" ]]; then
 	exec /usr/libexec/s2i/usage
