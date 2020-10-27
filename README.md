@@ -31,6 +31,28 @@ oc create -f sbt.yml
 
 Note the openshift user must have rights to the openshift namespace (i.e. a cluster admin).
 
+### SCALA Settings that need to be set to run in OpenShift
+
+All of these settings can be configured in the scala project application.conf file
+
+1. Set the PID ID to null
+```
+play.server.pidfile.path=/dev/null 
+```
+
+2. Set a Play Secret Key. 
+```
+play.http.secret.key="QCY?tAnfk?aZ?iwrNwnxIlR6CTf:G3gf:90Latabg@5241AB`R5W:1uDFN];Ik@n"
+```
+This should be a OCP ENV Secret at some point. 
+
+3. Set the filters host. The code below will allow any host to access the project
+```
+play.filters.hosts {
+  allowed = ["."]
+}
+```
+
 ### Trouble Shooting
 
 Some times checking out this project in windows will cause ^M characters to appear on the s2i/bin git bash files cause a error while trying to run the assembly command. 
@@ -40,4 +62,3 @@ If that happens clean up the s2i/bin files by running
 ```
 sed -e "s/^M//" filename > newfilename
 ``` 
-
