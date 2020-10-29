@@ -1,5 +1,5 @@
 
-IMAGE_NAME = dbrletic/sbt-s2i:1.4.1
+IMAGE_NAME = dbrletic/sbt-s2i:slim
 
 .PHONY: build
 build:

@@ -1,6 +1,8 @@
-FROM openshift/base-centos7
+FROM registry.access.redhat.com/ubi8/ubi-minimal:8.1
 
-MAINTAINER John Wass <jwass3@gmail.com>
+
+
+MAINTAINER Andrew Brletich <@gmail.com>
 
 ARG SBT_VERSION=1.4.1
 ARG SCALA_VERSION=2.13.3
@@ -16,13 +18,16 @@ LABEL io.k8s.display-name="sbt-s2i $SBT_S2I_BUILDER_VERSION" \
       io.openshift.min-memory="1Gi"
 
 USER root
-
-RUN INSTALL_PKGS="nano curl net-tools tar unzip which lsof java-11-openjdk java-11-openjdk-devel sbt-$SBT_VERSION" \
- && curl -s https://bintray.com/sbt/rpm/rpm > bintray-sbt-rpm.repo \
- && mv bintray-sbt-rpm.repo /etc/yum.repos.d/ \
- && yum install -y --enablerepo=centosplus $INSTALL_PKGS \
- && rpm -V $INSTALL_PKGS \
- && yum clean all -y
+RUN microdnf install java-1.8.0-openjdk git #installing java / git first 
+RUN curl https://bintray.com/sbt/rpm/rpm | tee /etc/yum.repos.d/bintray-sbt-rpm.repo #updating the repo
+RUN microdnf install sbt-$SBT_VERSION #installing SBT
+#java-11-openjdk-devel 
+#RUN INSTALL_PKGS="git curl nano java-11-openjdk-devel sbt-$SBT_VERSION" \
+# && curl -s https://bintray.com/sbt/rpm/rpm > bintray-sbt-rpm.repo \
+# && mv bintray-sbt-rpm.repo /etc/yum.repos.d/ \
+# && yum install -y $INSTALL_PKGS \
+# && rpm -V $INSTALL_PKGS \
+# && yum clean all -y
 
 COPY plugins.sbt /tmp
 
@@ -35,6 +40,7 @@ RUN mkdir -p /tmp/caching/project \
  && chown -R 1001:0 /opt/app-root \
  && chmod -R g+rw /opt/app-root \
  && rm -rf /tmp/*
+
 
 COPY ./s2i/bin/ /usr/libexec/s2i
 
