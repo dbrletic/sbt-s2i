@@ -1,6 +1,6 @@
-FROM openshift/base-centos7
+FROM quay.io/eclipse/che-java11-maven:7.22.0
 
-MAINTAINER John Wass <jwass3@gmail.com>
+MAINTAINER Andrew Brletich <dbrletic@gmail.com>
 
 ARG SBT_VERSION=1.4.1
 ARG SCALA_VERSION=2.13.3
@@ -17,12 +17,11 @@ LABEL io.k8s.display-name="sbt-s2i $SBT_S2I_BUILDER_VERSION" \
 
 USER root
 
-RUN INSTALL_PKGS="nano curl net-tools tar unzip which lsof java-11-openjdk java-11-openjdk-devel sbt-$SBT_VERSION" \
- && curl -s https://bintray.com/sbt/rpm/rpm > bintray-sbt-rpm.repo \
- && mv bintray-sbt-rpm.repo /etc/yum.repos.d/ \
- && yum install -y --enablerepo=centosplus $INSTALL_PKGS \
- && rpm -V $INSTALL_PKGS \
- && yum clean all -y
+RUN echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list \
+ && curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | apt-key add \
+ && apt-get update \
+ && apt-get install sbt \
+ && apt-get clean
 
 COPY plugins.sbt /tmp
 

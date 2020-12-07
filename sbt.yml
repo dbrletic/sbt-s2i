@@ -16,31 +16,14 @@ spec:
       description: Build and run Scala and Java applications using SBT
       iconClass: icon-scala
       openshift.io/display-name: SBT
-      openshift.io/provider-display-name: https://github.com/dbrletic/sbt-s2i
+      openshift.io/provider-display-name: FFM Nexus
       sampleRepo: https://github.com/theiterators/akka-http-microservice
       supports: sbt:1.4.1,java,scala
       tags: builder,java,scala
       version: "1.4.1"
     from:
       kind: DockerImage
-      name: dbrletic/sbt-s2i:1.4.1
-    generation: 1
-    importPolicy: {}
-    name: "1.4.1"
-    referencePolicy:
-      type: Source
-  - annotations:
-      description: Build and run Scala and Java applications using SBT 1.4.1
-      iconClass: icon-scala
-      openshift.io/display-name: SBT
-      openshift.io/provider-display-name: https://github.com/dbrletic/sbt-s2i
-      sampleRepo: https://github.com/theiterators/akka-http-microservice
-      supports: sbt:1.4.1,java,scala
-      tags: builder,java,scala
-      version: "1.4.1"
-    from:
-      kind: DockerImage
-      name: dbrletic/sbt-s2i:1.4.1
+      name: nexus-openshift-poc.ffm-poc.mp.cmscloud.local:8083/sbt-s2i:1.4.1
     generation: 1
     importPolicy: {}
     name: "1.4.1"
